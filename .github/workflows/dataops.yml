@@ -10,6 +10,7 @@ on:
 jobs:
   fetch_and_visualize:
     runs-on: ubuntu-latest
+
     steps:
       - name: Récupérer le code du repo
         uses: actions/checkout@v3
@@ -17,11 +18,10 @@ jobs:
       - name: Installer Python et dépendances
         uses: actions/setup-python@v3
         with:
-          python-version: '3.11'
+          python-version: '3.x'
 
       - name: Installer les bibliothèques
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Télécharger les données
         run: python scripts/fetch_data.py
@@ -37,4 +37,5 @@ jobs:
           git config --global user.name "GitHub Actions"
           git add data/data.csv data/visualization.png
           git commit -m "Mise à jour automatique des données"
-          git push https://github.com/douaemtoul/DataOps_Douae.git main
+          git push https://x-access-token:${GH_TOKEN}@github.com/douaemtoul/DataOps_Douae.git main
+
