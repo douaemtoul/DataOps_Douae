@@ -30,7 +30,9 @@ jobs:
         run: python scripts/visualize.py
 
       - name: Commit & Push des résultats
-        run: |
+     env : |
+     GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  run: |
           git config --global user.email "your_email@example.com"
           git config --global user.name "GitHub Actions"
           git add data/data.csv data/visualization.png
