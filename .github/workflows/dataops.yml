@@ -1,0 +1,38 @@
+name: DataOps Workflow
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 12 * * *'  # Exécution automatique tous les jours à 12h
+
+jobs:
+  fetch_and_visualize:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code du repo
+        uses: actions/checkout@v3
+
+      - name: Installer Python et dépendances
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+
+      - name: Installer les bibliothèques
+        run: pip install -r requirements.txt
+
+      - name: Télécharger les données
+        run: python scripts/fetch_data.py
+
+      - name: Générer les visualisations
+        run: python scripts/visualize.py
+
+      - name: Commit & Push des résultats
+        run: |
+          git config --global user.email "your_email@example.com"
+          git config --global user.name "GitHub Actions"
+          git add data/data.csv data/visualization.png
+          git commit -m "Mise à jour automatique des données et graphiques"
+          git push
